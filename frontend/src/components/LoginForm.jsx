@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
-import userService from '../API/userService.js';
-import { actions as authActions } from '../store/slices/auth/authSlice.js';
+import UserService from '../API/UserService.js';
+import { authActions } from '../store/actions/index.js';
 
 const LoginForm = () => {
   const [error, setError] = useState('');
@@ -16,8 +16,8 @@ const LoginForm = () => {
       initialValues={{ username: '', password: '' }}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          const response = await userService.login(values);
-          dispatch(authActions.setAuth(response.data));
+          const response = await UserService.login(values);
+          dispatch(authActions.login(response.data));
           navigate('/');
         } catch (e) {
           console.error(e);
