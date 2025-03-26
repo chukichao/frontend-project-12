@@ -1,23 +1,35 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getChannels, getMessages } from '../store/asyncActions/index.js';
+import io from 'socket.io-client';
+import { getChannels, getMessages } from '../store/asyncActions';
+import { getToken } from '../store/selectors';
 import ChannelsList from './СhannelsList.jsx';
-import Messages from './Messages.jsx';
+import MessagesList from './MessagesList.jsx';
 
 const Chat = () => {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector(getToken);
 
   useEffect(() => {
-    dispatch(getChannels(token));
+    const socket = io('http://localhost:5001');
+
+    socket.on('newMessage', () => {
+      dispatch(getMessages(token));
+    });
+
+    socket.on('newChannel', () => {
+      dispatch(getChannels(token));
+    });
+
     dispatch(getMessages(token));
-  }, [dispatch]);
+    dispatch(getChannels(token));
+  }, []);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
         <ChannelsList />
-        <Messages />
+        <MessagesList />
       </div>
     </div>
   );

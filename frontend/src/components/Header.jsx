@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+
 import { isUserAuth } from '../utils/userUtils';
 
 const Header = () => {
@@ -9,14 +12,14 @@ const Header = () => {
   ) : null;
 
   return (
-    <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-      <div className="container">
+    <Navbar expand="lg" className="shadow-sm navbar bg-white">
+      <Container>
         <Link className="navbar-brand" to="/">
           Hexlet Chat
         </Link>
         {logout}
-      </div>
-    </nav>
+      </Container>
+    </Navbar>
   );
 };
 

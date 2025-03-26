@@ -1,4 +1,6 @@
-import { getChannels } from '../slices/channels/channelsSlice.js';
-import { getMessages } from '../slices/messages/messagesSlice.js';
+import { getChannels, addChannel } from '../slices/channels/channelsSlice.js';
 
-export { getChannels, getMessages };
+import { getMessages, addMessage } from '../slices/messages/messagesSlice.js';
+
+export { getChannels, addChannel };
+export { getMessages, addMessage };

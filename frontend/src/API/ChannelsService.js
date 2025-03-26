@@ -10,4 +10,14 @@ export default class ChannelsService {
 
     return response;
   }
+
+  static async addChannel(token, channel) {
+    const response = await axios.post('/api/v1/channels', channel, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  }
 }

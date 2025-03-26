@@ -15,6 +15,19 @@ export const getChannels = createAsyncThunk(
   },
 );
 
+export const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async function ({ token, channel }) {
+    try {
+      const response = await ChannelsService.addChannel(token, channel);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+);
+
 const initialState = {
   entities: {},
   ids: [],

@@ -15,6 +15,17 @@ export const getMessages = createAsyncThunk(
   },
 );
 
+export const addMessage = createAsyncThunk(
+  'messages/addMessage',
+  async function ({ token, message }) {
+    try {
+      await MessagesService.addMessage(token, message);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+);
+
 const initialState = {
   entities: {},
   ids: [],

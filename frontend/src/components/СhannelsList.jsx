@@ -1,15 +1,26 @@
-import { useSelector } from 'react-redux';
-import { getChannels } from '../store/selectors/index.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { uiActions } from '../store/actions';
+import { getChannels } from '../store/selectors';
 import ChannelItem from './ChannelItem.jsx';
 
 const СhannelsList = () => {
   const channels = Object.values(useSelector(getChannels));
 
+  const dispatch = useDispatch();
+
+  const handleAddChannel = () => {
+    dispatch(uiActions.openModal({ type: 'addChannel' }));
+  };
+
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <button className="p-0 text-primary btn btn-group-vertical">
+        <button
+          type="button"
+          className="p-0 text-primary btn btn-group-vertical"
+          onClick={handleAddChannel}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"

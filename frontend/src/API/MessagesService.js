@@ -10,4 +10,12 @@ export default class MessagesService {
 
     return response;
   }
+
+  static async addMessage(token, message) {
+    await axios.post('/api/v1/messages', message, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }
