@@ -9,10 +9,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login(state, action) {
+    setAuth(state, action) {
       const { token, username } = action.payload;
       state.token = token;
       state.username = username;
+    },
+    removeAuth(state) {
+      state.token = null;
+      state.username = null;
     },
   },
 });

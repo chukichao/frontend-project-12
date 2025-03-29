@@ -4,7 +4,7 @@ import { getMessages } from '../store/selectors';
 import FormAddMessage from './FormAddMessage.jsx';
 
 const MessagesList = () => {
-  const { currentUsername, currentChannel } = useCurrentUserInfo();
+  const { currentChannel } = useCurrentUserInfo();
 
   const messages = Object.values(useSelector(getMessages)).filter(
     (message) => message.channelId === currentChannel?.id,
@@ -22,7 +22,7 @@ const MessagesList = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
-              <b>{currentUsername}</b>
+              <b>{message.username}</b>
               {': '}
               {message.body}
             </div>

@@ -11,7 +11,7 @@ const Chat = () => {
   const token = useSelector(getToken);
 
   useEffect(() => {
-    const socket = io('http://localhost:5001');
+    const socket = io();
 
     socket.on('newMessage', () => {
       dispatch(getMessages(token));
