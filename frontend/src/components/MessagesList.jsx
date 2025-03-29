@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
-import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
+import { useTranslation } from 'react-i18next';
+
 import { getMessages } from '../store/selectors';
+import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
 import FormAddMessage from './FormAddMessage.jsx';
 
 const MessagesList = () => {
+  const { t } = useTranslation();
   const { currentChannel } = useCurrentUserInfo();
 
   const messages = Object.values(useSelector(getMessages)).filter(
@@ -17,7 +20,9 @@ const MessagesList = () => {
           <p className="m-0">
             <b>{`# ${currentChannel?.name}`}</b>
           </p>
-          <span className="text-muted">{`${messages.length} сообщений`}</span>
+          <span className="text-muted">
+            {t('chat.messageCount', { count: messages.length })}
+          </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map((message) => (

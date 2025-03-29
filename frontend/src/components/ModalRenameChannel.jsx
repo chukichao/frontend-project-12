@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import * as yup from 'yup';
@@ -9,14 +9,17 @@ import Button from 'react-bootstrap/Button';
 
 import { useTranslation } from 'react-i18next';
 
-import { getChannels, getToken } from '../store/selectors';
+import { getChannels, getToken, getExtra } from '../store/selectors';
 
-import { addChannel } from '../store/asyncActions';
 import { uiActions } from '../store/actions';
 
-const ModalAddChannel = () => {
-  const [channelName, setChannelName] = useState('');
+const ModalRenameChannel = () => {
+  const channelId = useSelector(getExtra);
+  const currentChannelName = useSelector(getChannels)[channelId].name;
+
+  const [channelName, setChannelName] = useState(currentChannelName);
   const [error, setError] = useState(null);
+  const inputRef = useRef();
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -36,39 +39,12 @@ const ModalAddChannel = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    setLocale({
-      string: {
-        min: t('modals.min'),
-        max: t('modals.max'),
-      },
-      mixed: {
-        notOneOf: t('modals.uniq'),
-        required: t('modals.required'),
-      },
-    });
-
-    const schemaChannelName = yup
-      .string()
-      .required()
-      .min(3)
-      .max(20)
-      .notOneOf(channelNames);
-
-    try {
-      schemaChannelName.validateSync(channelName);
-
-      const channel = {
-        name: channelName,
-      };
-
-      dispatch(addChannel({ token, channel }));
-
-      handleCloseAddChannel();
-    } catch (err) {
-      setError(err.message);
-    }
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.select();
+  });
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -82,6 +58,7 @@ const ModalAddChannel = () => {
             onChange={handleChange}
             onKeyDown={(event) => event.key === 'Enter' && handleSubmit}
             autoFocus
+            ref={inputRef}
           />
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         </Form.Group>
@@ -102,4 +79,4 @@ const ModalAddChannel = () => {
   );
 };
 
-export default ModalAddChannel;
+export default ModalRenameChannel;

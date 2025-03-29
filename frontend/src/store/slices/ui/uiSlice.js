@@ -28,6 +28,11 @@ const uiSlice = createSlice({
     closeModal(state) {
       state.modal.isOpened = false;
       state.modal.type = null;
+      state.modal.extra = null;
+    },
+    setExtra(state, action) {
+      const { id } = action.payload;
+      state.modal.extra = id;
     },
   },
   extraReducers: (builder) => {

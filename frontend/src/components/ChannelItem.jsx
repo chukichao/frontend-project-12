@@ -1,16 +1,32 @@
 import { useDispatch } from 'react-redux';
+
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+
+import { useTranslation } from 'react-i18next';
+
 import { uiActions } from '../store/actions';
+
 import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
 
 const ChannelItem = ({ channel }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const { currentChannel } = useCurrentUserInfo();
   const currentChannelId = currentChannel?.id;
   const active = currentChannelId === channel.id;
+
+  const handleRemove = (id) => {
+    dispatch(uiActions.setExtra({ id }));
+    dispatch(uiActions.openModal({ type: 'removeChannel' }));
+  };
+
+  const handleRename = (id) => {
+    dispatch(uiActions.setExtra({ id }));
+    dispatch(uiActions.openModal({ type: 'renameChannel' }));
+  };
 
   const handleSwitchChannel = (id) => {
     dispatch(uiActions.setCurrentChannel({ id }));
@@ -38,8 +54,12 @@ const ChannelItem = ({ channel }) => {
         />
 
         <Dropdown.Menu>
-          <Dropdown.Item>Удалить</Dropdown.Item>
-          <Dropdown.Item>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleRemove(channel.id)}>
+            {t('channels.remove')}
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleRename(channel.id)}>
+            {t('channels.rename')}
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );

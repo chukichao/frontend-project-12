@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
+import { useTranslation } from 'react-i18next';
+
 import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
+
 import { addMessage } from '../store/asyncActions';
 import { getToken } from '../store/selectors';
 
@@ -13,6 +17,7 @@ const FormAddMessage = () => {
   const [isDisabledSubmit, setIsDisabledSubmit] = useState(true);
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const { currentUsername, currentChannel } = useCurrentUserInfo();
 
@@ -58,8 +63,8 @@ const FormAddMessage = () => {
       <InputGroup hasValidation>
         <Form.Control
           name="body"
-          aria-label="Новое сообщение"
-          placeholder="Введите сообщение..."
+          aria-label={t('chat.newMessage')}
+          placeholder={t('chat.message')}
           className="border-0 p-0 ps-2"
           value={messageBody}
           onChange={handleChange}

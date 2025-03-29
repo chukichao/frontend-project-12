@@ -8,6 +8,8 @@ import Card from 'react-bootstrap/Card';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
 
+import { useTranslation } from 'react-i18next';
+
 import loginImg from '../assets/login.jpg';
 
 import UserService from '../API/UserService.js';
@@ -19,6 +21,8 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -44,43 +48,49 @@ const Login = () => {
     <Card className="shadow-sm">
       <Card.Body className="row p-5">
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-          <img src={loginImg} className="rounded-circle" alt="Войти" />
+          <img
+            src={loginImg}
+            className="rounded-circle"
+            alt={t('login.header')}
+          />
         </div>
         <Formik
           initialValues={{ username: '', password: '' }}
           onSubmit={handleSubmit}
         >
           <Form className="col-12 col-md-6 mt-3 mt-md-0">
-            <h1 className="text-center mb-4">Войти</h1>
+            <h1 className="text-center mb-4">{t('login.header')}</h1>
             <FloatingLabel
               className="mb-3"
               controlId="username"
-              label="Ваш ник"
+              label={t('login.username')}
             >
               <Field
                 name="username"
                 autoComplete="username"
                 required
                 id="username"
-                placeholder="Ваш ник"
+                placeholder={t('login.username')}
                 className={`form-control ${isError ? 'is-invalid' : ''}`}
                 innerRef={inputRef}
               />
             </FloatingLabel>
-            <FloatingLabel className="mb-4" controlId="password" label="Пароль">
+            <FloatingLabel
+              className="mb-4"
+              controlId="password"
+              label={t('login.password')}
+            >
               <Field
                 type="password"
                 name="password"
                 autoComplete="current-password"
                 required
                 id="password"
-                placeholder="Пароль"
+                placeholder={t('login.password')}
                 className={`form-control ${isError ? 'is-invalid' : ''}`}
               />
               {isError && (
-                <div className="invalid-tooltip">
-                  Неверные имя пользователя или пароль
-                </div>
+                <div className="invalid-tooltip">{t('login.authFailed')}</div>
               )}
             </FloatingLabel>
             <Button
@@ -88,16 +98,16 @@ const Login = () => {
               variant="outline-primary"
               className="w-100 mb-3"
             >
-              Войти
+              {t('login.submit')}
             </Button>
           </Form>
         </Formik>
       </Card.Body>
       <Card.Footer className="p-4">
         <div className="text-center">
-          <span>Нет аккаунта?</span>
+          <span>{t('login.newToChat')}</span>
           {'\u00A0'}
-          <Link to="/signup">Регистрация</Link>
+          <Link to="/signup">{t('login.signup')}</Link>
         </div>
       </Card.Footer>
     </Card>

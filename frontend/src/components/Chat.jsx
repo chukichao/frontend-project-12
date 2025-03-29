@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import io from 'socket.io-client';
+
 import { getChannels, getMessages } from '../store/asyncActions';
 import { getToken } from '../store/selectors';
+
 import ChannelsList from './СhannelsList.jsx';
 import MessagesList from './MessagesList.jsx';
 
 const Chat = () => {
   const dispatch = useDispatch();
+
   const token = useSelector(getToken);
 
   useEffect(() => {
