@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import * as yup from 'yup';
@@ -7,16 +7,18 @@ import { setLocale } from 'yup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+import { Formik, Form as FormFormik, Field } from 'formik';
+
 import { useTranslation } from 'react-i18next';
 
 import { getChannels, getToken } from '../store/selectors';
-
-import { addChannel } from '../store/asyncActions';
 import { uiActions } from '../store/actions';
+import { addChannel } from '../store/asyncActions';
 
 const ModalAddChannel = () => {
-  const [channelName, setChannelName] = useState('');
-  const [error, setError] = useState(null);
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [error, setError] = useState('');
+  const inputRef = useRef();
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -26,79 +28,82 @@ const ModalAddChannel = () => {
     (channel) => channel.name,
   );
 
-  const handleChange = ({ target: { value } }) => {
-    setChannelName(value);
-  };
+  setLocale({
+    string: {
+      min: t('modals.min'),
+      max: t('modals.max'),
+    },
+    mixed: {
+      notOneOf: t('modals.uniq'),
+      required: t('modals.required'),
+    },
+  });
 
-  const handleCloseAddChannel = () => {
+  const validationSchema = yup.object().shape({
+    name: yup.string().required().min(3).max(20).notOneOf(channelNames),
+  });
+
+  const handleCloseModal = () => {
     dispatch(uiActions.closeModal());
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (errors, values) => (event) => {
     event.preventDefault();
 
-    setLocale({
-      string: {
-        min: t('modals.min'),
-        max: t('modals.max'),
-      },
-      mixed: {
-        notOneOf: t('modals.uniq'),
-        required: t('modals.required'),
-      },
-    });
-
-    const schemaChannelName = yup
-      .string()
-      .required()
-      .min(3)
-      .max(20)
-      .notOneOf(channelNames);
-
-    try {
-      schemaChannelName.validateSync(channelName);
-
-      const channel = {
-        name: channelName,
-      };
-
-      dispatch(addChannel({ token, channel }));
-
-      handleCloseAddChannel();
-    } catch (err) {
-      setError(err.message);
+    if (errors.name) {
+      setError(errors.name);
+      return;
     }
+
+    setDisabledButton(true);
+
+    const newChannel = {
+      name: values.name,
+    };
+
+    dispatch(addChannel({ token, newChannel }));
+    handleCloseModal();
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <div>
-        <Form.Group>
-          <Form.Control
-            name="name"
-            id="name"
-            className={`mb-2 ${error ? 'is-invalid' : ''}`}
-            value={channelName}
-            onChange={handleChange}
-            onKeyDown={(event) => event.key === 'Enter' && handleSubmit}
-            autoFocus
-          />
-          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
-        </Form.Group>
-        <div className="d-flex justify-content-end">
-          <Button
-            variant="secondary"
-            onClick={handleCloseAddChannel}
-            className="me-2"
-          >
-            {t('modals.cancel')}
-          </Button>
-          <Button type="submit" variant="primary">
-            {t('modals.submit')}
-          </Button>
-        </div>
-      </div>
-    </Form>
+    <Formik initialValues={{ name: '' }} validationSchema={validationSchema}>
+      {({ errors, values }) => (
+        <FormFormik noValidate onSubmit={handleSubmit(errors, values)}>
+          <div>
+            <Field
+              name="name"
+              id="name"
+              className={`form-control mb-2 ${error ? 'is-invalid' : ''}`}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  return handleSubmit(errors, values);
+                }
+              }}
+              innerRef={inputRef}
+            />
+            <Form.Control.Feedback type="invalid">
+              {error}
+            </Form.Control.Feedback>
+            <div className="d-flex justify-content-end">
+              <Button
+                variant="secondary"
+                onClick={handleCloseModal}
+                className="me-2"
+              >
+                {t('modals.cancel')}
+              </Button>
+              <Button type="submit" variant="primary" disabled={disabledButton}>
+                {t('modals.submit')}
+              </Button>
+            </div>
+          </div>
+        </FormFormik>
+      )}
+    </Formik>
   );
 };
 

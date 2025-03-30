@@ -9,6 +9,7 @@ const initialState = {
     type: null,
     extra: null,
   },
+  defaultChannelId,
   currentChannelId: defaultChannelId,
 };
 

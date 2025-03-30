@@ -14,7 +14,7 @@ import { getToken } from '../store/selectors';
 
 const FormAddMessage = () => {
   const [messageBody, setMessageBody] = useState('');
-  const [isDisabledSubmit, setIsDisabledSubmit] = useState(true);
+  const [disabledButton, setDisabledButton] = useState(true);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -33,23 +33,24 @@ const FormAddMessage = () => {
     setMessageBody(value);
 
     if (value.trim().length > 0) {
-      setIsDisabledSubmit(false);
+      setDisabledButton(false);
     } else {
-      setIsDisabledSubmit(true);
+      setDisabledButton(true);
     }
   };
 
   const handleSubmitMessage = (event) => {
     event.preventDefault();
-    setIsDisabledSubmit(true);
+    setDisabledButton(true);
 
-    const message = {
+    const newMessage = {
       body: messageBody,
       channelId: currentChannel.id,
       username: currentUsername,
     };
 
-    dispatch(addMessage({ token, message }));
+    dispatch(addMessage({ token, newMessage }));
+
     setMessageBody('');
     inputRef.current.focus();
   };
@@ -73,7 +74,7 @@ const FormAddMessage = () => {
         <Button
           type="submit"
           className="btn-group-vertical"
-          disabled={isDisabledSubmit}
+          disabled={disabledButton}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

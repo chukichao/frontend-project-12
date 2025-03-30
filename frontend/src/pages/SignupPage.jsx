@@ -20,6 +20,7 @@ import UserService from '../API/UserService';
 import { authActions } from '../store/actions';
 
 const SignupPage = () => {
+  const [disabledButton, setDisabledButton] = useState(false);
   const [isError, setIsError] = useState(false);
   const inputRef = useRef();
 
@@ -28,13 +29,9 @@ const SignupPage = () => {
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  });
-
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      setDisabledButton(true);
       const { username, password } = values;
 
       const user = {
@@ -48,10 +45,12 @@ const SignupPage = () => {
       navigate('/');
     } catch (error) {
       if (error?.response.data.statusCode === 409) {
+        console.error(error);
         setIsError(true);
       }
     } finally {
       setSubmitting(false);
+      setDisabledButton(false);
     }
   };
 
@@ -88,6 +87,11 @@ const SignupPage = () => {
       {t('signup.alreadyExists')}
     </Form.Control.Feedback>
   );
+
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.select();
+  });
 
   return (
     <Card className="shadow-sm">
@@ -174,7 +178,12 @@ const SignupPage = () => {
                 {isError && errorMessageAuth}
                 {errors.confirmPassword ? errorMessagePassword : null}
               </FloatingLabel>
-              <Button type="submit" variant="outline-primary" className="w-100">
+              <Button
+                type="submit"
+                variant="outline-primary"
+                className="w-100"
+                disabled={disabledButton}
+              >
                 {t('signup.submit')}
               </Button>
             </FormFormik>

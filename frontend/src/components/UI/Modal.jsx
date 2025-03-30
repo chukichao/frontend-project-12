@@ -10,12 +10,12 @@ const ModalUI = ({ title, children }) => {
 
   const dispatch = useDispatch();
 
-  const handleCloseAddChannel = () => {
+  const handleCloseModal = () => {
     dispatch(uiActions.closeModal());
   };
 
   return (
-    <Modal show={isModalOpen} onHide={handleCloseAddChannel} centered>
+    <Modal show={isModalOpen} onHide={handleCloseModal} centered>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>

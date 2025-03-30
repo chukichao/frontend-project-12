@@ -17,9 +17,39 @@ export const getChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async function ({ token, channel }) {
+  async function ({ token, newChannel }) {
     try {
-      const response = await ChannelsService.addChannel(token, channel);
+      const response = await ChannelsService.addChannel(token, newChannel);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+);
+
+export const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async function ({ token, channelId }) {
+    try {
+      const response = await ChannelsService.removeChannel(token, channelId);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+);
+
+export const editChannel = createAsyncThunk(
+  'channels/editChannel',
+  async function ({ token, channelId, editedChannel }) {
+    try {
+      const response = await ChannelsService.editChannel(
+        token,
+        channelId,
+        editedChannel,
+      );
 
       return response.data;
     } catch (error) {

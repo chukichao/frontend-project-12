@@ -16,6 +16,7 @@ import UserService from '../API/UserService.js';
 import { authActions } from '../store/actions';
 
 const Login = () => {
+  const [disabledButton, setDisabledButton] = useState(false);
   const [isError, setIsError] = useState(false);
   const inputRef = useRef();
 
@@ -26,6 +27,7 @@ const Login = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      setDisabledButton(true);
       const response = await UserService.login(values);
 
       dispatch(authActions.setAuth(response.data));
@@ -36,6 +38,7 @@ const Login = () => {
       setIsError(true);
     } finally {
       setSubmitting(false);
+      setDisabledButton(false);
     }
   };
 
@@ -97,6 +100,7 @@ const Login = () => {
               type="submit"
               variant="outline-primary"
               className="w-100 mb-3"
+              disabled={disabledButton}
             >
               {t('login.submit')}
             </Button>

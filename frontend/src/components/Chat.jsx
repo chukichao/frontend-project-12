@@ -3,8 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import io from 'socket.io-client';
 
+import { uiActions } from '../store/actions';
 import { getChannels, getMessages } from '../store/asyncActions';
-import { getToken } from '../store/selectors';
+import {
+  getToken,
+  getDefaultChannelId,
+  getCurrentChannelId,
+} from '../store/selectors';
 
 import ChannelsList from './СhannelsList.jsx';
 import MessagesList from './MessagesList.jsx';
@@ -13,6 +18,8 @@ const Chat = () => {
   const dispatch = useDispatch();
 
   const token = useSelector(getToken);
+  const defaultChannelId = useSelector(getDefaultChannelId);
+  const currentChannelId = useSelector(getCurrentChannelId);
 
   useEffect(() => {
     const socket = io();
@@ -25,8 +32,22 @@ const Chat = () => {
       dispatch(getChannels(token));
     });
 
-    dispatch(getMessages(token));
+    socket.on('removeChannel', ({ id }) => {
+      if (currentChannelId === id) {
+        dispatch(uiActions.setCurrentChannel({ id: defaultChannelId }));
+      }
+
+      dispatch(getChannels(token));
+      dispatch(getMessages(token));
+    });
+
+    socket.on('renameChannel', () => {
+      dispatch(getChannels(token));
+      dispatch(getMessages(token));
+    });
+
     dispatch(getChannels(token));
+    dispatch(getMessages(token));
   }, []);
 
   return (

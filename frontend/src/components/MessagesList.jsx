@@ -8,7 +8,6 @@ import FormAddMessage from './FormAddMessage.jsx';
 const MessagesList = () => {
   const { t } = useTranslation();
   const { currentChannel } = useCurrentUserInfo();
-
   const messages = Object.values(useSelector(getMessages)).filter(
     (message) => message.channelId === currentChannel?.id,
   );
