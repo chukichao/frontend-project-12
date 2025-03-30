@@ -1,32 +1,38 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useTranslation } from 'react-i18next';
+
 import * as yup from 'yup';
 import { setLocale } from 'yup';
+
+import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { Formik, Form as FormFormik, Field } from 'formik';
-
-import { useTranslation } from 'react-i18next';
-
 import { getChannels, getToken } from '../store/selectors';
+
 import { uiActions } from '../store/actions';
 import { addChannel } from '../store/asyncActions';
 
 const ModalAddChannel = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
-  const inputRef = useRef();
 
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const inputRef = useRef();
 
   const token = useSelector(getToken);
   const channelNames = Object.values(useSelector(getChannels)).map(
     (channel) => channel.name,
   );
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
 
   setLocale({
     string: {
@@ -64,10 +70,6 @@ const ModalAddChannel = () => {
     dispatch(addChannel({ token, newChannel }));
     handleCloseModal();
   };
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  });
 
   return (
     <Formik initialValues={{ name: '' }} validationSchema={validationSchema}>

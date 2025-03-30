@@ -1,16 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { uiActions } from '../store/actions';
 import { getChannels } from '../store/selectors';
+import { uiActions } from '../store/actions';
 
 import ChannelItem from './ChannelItem.jsx';
 
 const СhannelsList = () => {
-  const channels = Object.values(useSelector(getChannels));
-
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const channels = Object.values(useSelector(getChannels));
 
   const handleAddChannel = () => {
     dispatch(uiActions.openModal({ type: 'addChannel' }));

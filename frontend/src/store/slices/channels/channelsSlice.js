@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ChannelsService from '../../../API/ChannelsService.js';
-import { normalizeData } from '../../../utils/normalizeData.js';
+import { normalizeData } from '../../../utils/dataUtils.js';
 
 export const getChannels = createAsyncThunk(
   'channels/getChannels',

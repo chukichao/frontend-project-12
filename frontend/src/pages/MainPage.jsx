@@ -14,8 +14,9 @@ import ModalRenameChannel from '../components/ModalRenameChannel.jsx';
 import { getModal } from '../store/selectors';
 
 const MainPage = () => {
-  const modal = useSelector(getModal);
   const { t } = useTranslation();
+
+  const modal = useSelector(getModal);
 
   const titleModal = {
     addChannel: t('modals.add'),

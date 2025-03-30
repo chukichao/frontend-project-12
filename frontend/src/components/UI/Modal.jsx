@@ -6,9 +6,9 @@ import { getModal } from '../../store/selectors';
 import { uiActions } from '../../store/actions';
 
 const ModalUI = ({ title, children }) => {
-  const isModalOpen = useSelector(getModal).isOpened;
-
   const dispatch = useDispatch();
+
+  const isModalOpen = useSelector(getModal).isOpened;
 
   const handleCloseModal = () => {
     dispatch(uiActions.closeModal());

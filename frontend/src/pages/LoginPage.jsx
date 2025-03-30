@@ -2,34 +2,45 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Formik, Form, Field } from 'formik';
+import { useTranslation } from 'react-i18next';
+
+import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Card from 'react-bootstrap/Card';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
 
-import { useTranslation } from 'react-i18next';
-
-import loginImg from '../assets/login.jpg';
-
 import UserService from '../API/UserService.js';
 import { authActions } from '../store/actions';
 
-const Login = () => {
-  const [disabledButton, setDisabledButton] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const inputRef = useRef();
+import loginImg from '../assets/login.jpg';
 
+const Login = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.select();
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setDisabledButton(true);
-      const response = await UserService.login(values);
 
+      const { username, password } = values;
+      const user = {
+        username,
+        password,
+      };
+
+      const response = await UserService.login(user);
       dispatch(authActions.setAuth(response.data));
 
       navigate('/');
@@ -41,11 +52,6 @@ const Login = () => {
       setDisabledButton(false);
     }
   };
-
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  });
 
   return (
     <Card className="shadow-sm">
@@ -61,8 +67,9 @@ const Login = () => {
           initialValues={{ username: '', password: '' }}
           onSubmit={handleSubmit}
         >
-          <Form className="col-12 col-md-6 mt-3 mt-md-0">
+          <FormFormik className="col-12 col-md-6 mt-3 mt-md-0">
             <h1 className="text-center mb-4">{t('login.header')}</h1>
+
             <FloatingLabel
               className="mb-3"
               controlId="username"
@@ -78,6 +85,7 @@ const Login = () => {
                 innerRef={inputRef}
               />
             </FloatingLabel>
+
             <FloatingLabel
               className="mb-4"
               controlId="password"
@@ -96,6 +104,7 @@ const Login = () => {
                 <div className="invalid-tooltip">{t('login.authFailed')}</div>
               )}
             </FloatingLabel>
+
             <Button
               type="submit"
               variant="outline-primary"
@@ -104,9 +113,10 @@ const Login = () => {
             >
               {t('login.submit')}
             </Button>
-          </Form>
+          </FormFormik>
         </Formik>
       </Card.Body>
+
       <Card.Footer className="p-4">
         <div className="text-center">
           <span>{t('login.newToChat')}</span>

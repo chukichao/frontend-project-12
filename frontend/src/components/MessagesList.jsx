@@ -2,13 +2,16 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { getMessages } from '../store/selectors';
-import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
+
+import useChannel from '../hooks/useChannel';
+
 import FormAddMessage from './FormAddMessage.jsx';
 
 const MessagesList = () => {
   const { t } = useTranslation();
-  const { currentChannel } = useCurrentUserInfo();
-  const messages = Object.values(useSelector(getMessages)).filter(
+
+  const currentChannel = useChannel();
+  const messagesChannel = Object.values(useSelector(getMessages)).filter(
     (message) => message.channelId === currentChannel?.id,
   );
 
@@ -20,11 +23,11 @@ const MessagesList = () => {
             <b>{`# ${currentChannel?.name}`}</b>
           </p>
           <span className="text-muted">
-            {t('chat.messageCount', { count: messages.length })}
+            {t('chat.messageCount', { count: messagesChannel.length })}
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {messages.map((message) => (
+          {messagesChannel.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b>
               {': '}

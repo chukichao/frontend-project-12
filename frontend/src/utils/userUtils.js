@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getToken } from '../store/selectors/index.js';
+import { getToken } from '../store/selectors';
 
 export const isUserAuth = () => {
   const token = useSelector(getToken);

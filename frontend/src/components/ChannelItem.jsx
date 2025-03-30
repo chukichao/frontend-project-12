@@ -1,22 +1,21 @@
 import { useDispatch } from 'react-redux';
 
+import { useTranslation } from 'react-i18next';
+
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-import { useTranslation } from 'react-i18next';
-
 import { uiActions } from '../store/actions';
 
-import useCurrentUserInfo from '../hooks/useCurrentUserInfo.js';
+import useChannel from '../hooks/useChannel';
 
 const ChannelItem = ({ channel }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { currentChannel } = useCurrentUserInfo();
-  const currentChannelId = currentChannel?.id;
-  const active = currentChannelId === channel.id;
+  const currentChannel = useChannel();
+  const active = currentChannel?.id === channel.id;
 
   const handleRemove = (id) => {
     dispatch(uiActions.setExtra({ id }));

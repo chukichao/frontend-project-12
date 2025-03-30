@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 
@@ -12,28 +14,53 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { useTranslation } from 'react-i18next';
-
-import signupImg from '../assets/signup.jpg';
-
 import UserService from '../API/UserService';
 import { authActions } from '../store/actions';
 
-const SignupPage = () => {
-  const [disabledButton, setDisabledButton] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const inputRef = useRef();
+import signUpImg from '../assets/signUp.jpg';
 
+const SignupPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.select();
+  });
+
+  setLocale({
+    string: {
+      min: t('signup.usernameConstraints'),
+      max: t('signup.usernameConstraints'),
+    },
+    mixed: {
+      required: t('signup.required'),
+    },
+  });
+
+  const validationSchema = yup.object().shape({
+    username: yup.string().required().min(3).max(20),
+    password: yup.string().required().min(6, t('signup.passMin')),
+    confirmPassword: yup
+      .string()
+      .required()
+      .test(
+        'match',
+        (value, ctx) => value === ctx.from[ctx.from.length - 1].value.password,
+      ),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setDisabledButton(true);
-      const { username, password } = values;
 
+      const { username, password } = values;
       const user = {
         username,
         password,
@@ -54,51 +81,24 @@ const SignupPage = () => {
     }
   };
 
-  setLocale({
-    string: {
-      min: t('signup.usernameConstraints'),
-      max: t('signup.usernameConstraints'),
-    },
-    mixed: {
-      required: t('signup.required'),
-    },
-  });
-
-  const validationSchema = yup.object().shape({
-    username: yup.string().required().min(3).max(20),
-    password: yup.string().required().min(6, t('signup.passMin')),
-    confirmPassword: yup
-      .string()
-      .required()
-      .test(
-        'confirmPassword',
-        (value, ctx) => value === ctx.from[ctx.from.length - 1].value.password,
-      ),
-  });
-
-  const errorMessagePassword = (
+  const errorConfirmPassword = (
     <Form.Control.Feedback type="invalid" tooltip>
       {t('signup.mustMatch')}
     </Form.Control.Feedback>
   );
 
-  const errorMessageAuth = (
+  const errorAuth = (
     <Form.Control.Feedback type="invalid" tooltip>
       {t('signup.alreadyExists')}
     </Form.Control.Feedback>
   );
-
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.select();
-  });
 
   return (
     <Card className="shadow-sm">
       <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
         <div>
           <img
-            src={signupImg}
+            src={signUpImg}
             className="rounded-circle"
             alt={t('signup.header')}
           />
@@ -111,6 +111,7 @@ const SignupPage = () => {
           {({ errors, touched }) => (
             <FormFormik className="w-50" noValidate>
               <h1 className="text-center mb-4">{t('signup.header')}</h1>
+
               <FloatingLabel
                 className="mb-3"
                 controlId="username"
@@ -133,6 +134,7 @@ const SignupPage = () => {
                   {errors.username}
                 </Form.Control.Feedback>
               </FloatingLabel>
+
               <FloatingLabel
                 className="mb-3"
                 controlId="password"
@@ -156,6 +158,7 @@ const SignupPage = () => {
                   {errors.password}
                 </Form.Control.Feedback>
               </FloatingLabel>
+
               <FloatingLabel
                 className="mb-4"
                 controlId="confirmPassword"
@@ -175,9 +178,12 @@ const SignupPage = () => {
                       : ''
                   }`}
                 />
-                {isError && errorMessageAuth}
-                {errors.confirmPassword ? errorMessagePassword : null}
+
+                {isError && errorAuth}
+
+                {errors.confirmPassword ? errorConfirmPassword : null}
               </FloatingLabel>
+
               <Button
                 type="submit"
                 variant="outline-primary"

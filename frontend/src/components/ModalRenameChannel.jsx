@@ -1,35 +1,42 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useTranslation } from 'react-i18next';
+
 import * as yup from 'yup';
 import { setLocale } from 'yup';
+
+import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { Formik, Form as FormFormik, Field } from 'formik';
+import { getChannels, getToken, getModal } from '../store/selectors';
 
-import { useTranslation } from 'react-i18next';
-
-import { getChannels, getToken, getExtra } from '../store/selectors';
 import { uiActions } from '../store/actions';
 import { editChannel } from '../store/asyncActions';
 
 const ModalRenameChannel = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
-  const inputRef = useRef();
 
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const inputRef = useRef();
 
   const token = useSelector(getToken);
   const channelNames = Object.values(useSelector(getChannels)).map(
     (channel) => channel.name,
   );
 
-  const channelId = useSelector(getExtra);
+  const channelId = useSelector(getModal).extra;
   const currentChannelName = useSelector(getChannels)[channelId].name;
+
+  useEffect(() => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  });
 
   setLocale({
     string: {
@@ -67,11 +74,6 @@ const ModalRenameChannel = () => {
     dispatch(editChannel({ token, channelId, editedChannel }));
     handleCloseModal();
   };
-
-  useEffect(() => {
-    inputRef.current?.focus();
-    inputRef.current?.select();
-  });
 
   return (
     <Formik

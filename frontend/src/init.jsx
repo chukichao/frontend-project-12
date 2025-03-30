@@ -6,13 +6,12 @@ import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
 import { PersistGate } from 'redux-persist/integration/react';
-
 import store, { persistor } from './store/index.js';
+
+import './index.css';
 import resources from './locales';
 
 import App from './components/App.jsx';
-
-import './index.css';
 
 const init = async () => {
   const i18n = i18next.createInstance();

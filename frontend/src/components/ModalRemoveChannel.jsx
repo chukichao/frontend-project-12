@@ -1,33 +1,32 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
+
+import Button from 'react-bootstrap/Button';
+
+import { getModal, getToken } from '../store/selectors';
 
 import { uiActions } from '../store/actions';
 import { removeChannel } from '../store/asyncActions';
-import { getExtra, getToken, getDefaultChannelId } from '../store/selectors';
 
 const ModalRemoveChannel = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [disabledButton, setDisabledButton] = useState(false);
 
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-
   const token = useSelector(getToken);
-  const channelId = useSelector(getExtra);
-  const defaultChannelId = useSelector(getDefaultChannelId);
+  const channelId = useSelector(getModal).extra;
 
   const handleCloseModal = () => {
     dispatch(uiActions.closeModal());
   };
 
-  const handleRemove = () => {
+  const handleSubmit = () => {
     setDisabledButton(true);
 
     dispatch(removeChannel({ token, channelId }));
-    dispatch(uiActions.setCurrentChannel({ id: defaultChannelId }));
-
     handleCloseModal();
   };
 
@@ -40,7 +39,7 @@ const ModalRemoveChannel = () => {
         </Button>
         <Button
           variant="danger"
-          onClick={handleRemove}
+          onClick={handleSubmit}
           disabled={disabledButton}
         >
           {t('modals.confirm')}

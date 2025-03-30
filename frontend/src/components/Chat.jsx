@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import io from 'socket.io-client';
 
-import { uiActions } from '../store/actions';
-import { getChannels, getMessages } from '../store/asyncActions';
 import {
   getToken,
   getDefaultChannelId,
   getCurrentChannelId,
 } from '../store/selectors';
+
+import { uiActions } from '../store/actions';
+import { getChannels, getMessages } from '../store/asyncActions';
 
 import ChannelsList from './СhannelsList.jsx';
 import MessagesList from './MessagesList.jsx';
@@ -18,8 +19,8 @@ const Chat = () => {
   const dispatch = useDispatch();
 
   const token = useSelector(getToken);
-  const defaultChannelId = useSelector(getDefaultChannelId);
   const currentChannelId = useSelector(getCurrentChannelId);
+  const defaultChannelId = useSelector(getDefaultChannelId);
 
   useEffect(() => {
     const socket = io();

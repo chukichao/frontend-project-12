@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addChannel } from '../../asyncActions';
+import { addChannel, removeChannel } from '../../asyncActions';
 
 const defaultChannelId = '1';
 
@@ -40,6 +40,9 @@ const uiSlice = createSlice({
     builder.addCase(addChannel.fulfilled, (state, action) => {
       const { id } = action.payload;
       state.currentChannelId = id;
+    });
+    builder.addCase(removeChannel.fulfilled, (state) => {
+      state.currentChannelId = state.defaultChannelId;
     });
   },
 });

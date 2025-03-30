@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import MessagesService from '../../../API/MessagesService.js';
-import { normalizeData } from '../../../utils/normalizeData.js';
+import { normalizeData } from '../../../utils/dataUtils.js';
 
 export const getMessages = createAsyncThunk(
   'messages/getMessages',
@@ -21,6 +20,8 @@ export const addMessage = createAsyncThunk(
   async function ({ token, newMessage }) {
     try {
       await MessagesService.addMessage(token, newMessage);
+
+      return response.data;
     } catch (error) {
       console.error(error);
     }

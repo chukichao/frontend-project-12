@@ -4,5 +4,6 @@ import { channelsActions } from '../slices/channels/channelsSlice.js';
 import { messagesActions } from '../slices/messages/messagesSlice.js';
 
 export { authActions };
-export { channelsActions, messagesActions };
 export { uiActions };
+export { channelsActions };
+export { messagesActions };

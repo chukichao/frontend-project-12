@@ -6,7 +6,6 @@ export const getUsername = (state) => state.auth.username;
 export const getCurrentChannelId = (state) => state.ui.currentChannelId;
 export const getDefaultChannelId = (state) => state.ui.defaultChannelId;
 export const getModal = (state) => state.ui.modal;
-export const getExtra = (state) => state.ui.modal.extra;
 
 // channels
 export const getChannels = (state) => state.channels.entities;

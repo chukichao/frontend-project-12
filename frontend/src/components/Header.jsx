@@ -1,26 +1,26 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-
 import { useTranslation } from 'react-i18next';
 
-import { isUserAuth } from '../utils/userUtils';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/esm/Button.js';
+
 import { authActions } from '../store/actions';
 
+import { isUserAuth } from '../utils/userUtils.js';
+
 const Header = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(authActions.removeAuth());
   };
 
-  const logout = isUserAuth() ? (
-    <button type="button" className="btn btn-primary" onClick={handleLogout}>
-      {t('logout')}
-    </button>
+  const logoutButton = isUserAuth() ? (
+    <Button onClick={handleLogout}>{t('logout')}</Button>
   ) : null;
 
   return (
@@ -29,7 +29,7 @@ const Header = () => {
         <Link className="navbar-brand" to="/">
           {t('hexletChat')}
         </Link>
-        {logout}
+        {logoutButton}
       </Container>
     </Navbar>
   );
