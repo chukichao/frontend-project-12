@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
 
+import { toast } from 'react-toastify';
+
 import Button from 'react-bootstrap/Button';
 
 import { getModal, getToken } from '../store/selectors';
@@ -13,6 +15,9 @@ import { removeChannel } from '../store/asyncActions';
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const getNotificationStatusOperation = () =>
+    toast.success(t('channels.removed'));
 
   const [disabledButton, setDisabledButton] = useState(false);
 
@@ -27,7 +32,9 @@ const ModalRemoveChannel = () => {
     setDisabledButton(true);
 
     dispatch(removeChannel({ token, channelId }));
+
     handleCloseModal();
+    getNotificationStatusOperation();
   };
 
   return (

@@ -5,9 +5,9 @@ export default {
       remove: 'Remove',
       rename: 'Rename',
       channels: 'Channels',
-      created: 'Channel created', //
-      renamed: 'Channel renamed', //
-      removed: 'Channel removed', //
+      created: 'Channel created',
+      renamed: 'Channel renamed',
+      removed: 'Channel removed',
     },
     loading: 'Loading...', //
     login: {
@@ -62,7 +62,7 @@ export default {
       linkText: 'to the main page',
     },
     errors: {
-      network: 'Network Error', //
+      network: 'Network Error',
       unknown: 'Unknown Error', //
     },
   },

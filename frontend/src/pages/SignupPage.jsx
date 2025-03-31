@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 
+import { toast } from 'react-toastify';
+
 import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Card from 'react-bootstrap/Card';
@@ -23,6 +25,8 @@ const SignupPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const getNotificationConnectionError = () => toast.error(t('errors.network'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -71,6 +75,11 @@ const SignupPage = () => {
 
       navigate('/');
     } catch (error) {
+      if (error.message === 'Network Error') {
+        getNotificationConnectionError();
+        return;
+      }
+
       if (error?.response.data.statusCode === 409) {
         console.error(error);
         setIsError(true);

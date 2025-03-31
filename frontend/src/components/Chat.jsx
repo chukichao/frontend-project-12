@@ -33,16 +33,15 @@ const Chat = () => {
       dispatch(getChannels(token));
     });
 
+    socket.on('renameChannel', () => {
+      dispatch(getChannels(token));
+    });
+
     socket.on('removeChannel', ({ id }) => {
       if (currentChannelId === id) {
         dispatch(uiActions.setCurrentChannel({ id: defaultChannelId }));
       }
 
-      dispatch(getChannels(token));
-      dispatch(getMessages(token));
-    });
-
-    socket.on('renameChannel', () => {
       dispatch(getChannels(token));
       dispatch(getMessages(token));
     });

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 
+import { toast } from 'react-toastify';
+
 import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Form from 'react-bootstrap/Form';
@@ -19,6 +21,9 @@ import { addChannel } from '../store/asyncActions';
 const ModalAddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const getNotificationStatusOperation = () =>
+    toast.success(t('channels.created'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
@@ -68,7 +73,9 @@ const ModalAddChannel = () => {
     };
 
     dispatch(addChannel({ token, newChannel }));
+
     handleCloseModal();
+    getNotificationStatusOperation();
   };
 
   return (

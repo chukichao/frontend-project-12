@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 
+import { toast } from 'react-toastify';
+
 import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Card from 'react-bootstrap/Card';
@@ -19,6 +21,8 @@ const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const getNotificationConnectionError = () => toast.error(t('errors.network'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -45,6 +49,11 @@ const Login = () => {
 
       navigate('/');
     } catch (error) {
+      if (error.message === 'Network Error') {
+        getNotificationConnectionError();
+        return;
+      }
+
       console.error(error);
       setIsError(true);
     } finally {
@@ -67,7 +76,7 @@ const Login = () => {
           initialValues={{ username: '', password: '' }}
           onSubmit={handleSubmit}
         >
-          <FormFormik className="col-12 col-md-6 mt-3 mt-md-0">
+          <FormFormik className="col-12 col-md-6 mt-3 mt-md-0" noValidate>
             <h1 className="text-center mb-4">{t('login.header')}</h1>
 
             <FloatingLabel

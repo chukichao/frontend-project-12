@@ -4,6 +4,9 @@ import { Outlet } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 
+import { ToastContainer, Bounce } from 'react-toastify';
+import 'react-toastify/ReactToastify.min.css';
+
 import Header from '../components/Header.jsx';
 import ModalUI from '../components/UI/Modal.jsx';
 
@@ -31,15 +34,33 @@ const MainPage = () => {
   };
 
   return (
-    <div className="d-flex flex-column h-100">
-      <Header />
-      <Outlet />
-      {modal.isOpened && (
-        <ModalUI title={titleModal[modal.type]}>
-          {bodyModal[modal.type]}
-        </ModalUI>
-      )}
-    </div>
+    <>
+      <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+      </div>
+
+      <div className="d-flex flex-column h-100">
+        <Header />
+        <Outlet />
+        {modal.isOpened && (
+          <ModalUI title={titleModal[modal.type]}>
+            {bodyModal[modal.type]}
+          </ModalUI>
+        )}
+      </div>
+    </>
   );
 };
 

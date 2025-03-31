@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 
+import { toast } from 'react-toastify';
+
 import { Formik, Form as FormFormik, Field } from 'formik';
 
 import Form from 'react-bootstrap/Form';
@@ -19,6 +21,9 @@ import { editChannel } from '../store/asyncActions';
 const ModalRenameChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const getNotificationStatusOperation = () =>
+    toast.success(t('channels.renamed'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
@@ -72,7 +77,9 @@ const ModalRenameChannel = () => {
     };
 
     dispatch(editChannel({ token, channelId, editedChannel }));
+
     handleCloseModal();
+    getNotificationStatusOperation();
   };
 
   return (
@@ -81,7 +88,7 @@ const ModalRenameChannel = () => {
       validationSchema={validationSchema}
     >
       {({ errors, values }) => (
-        <FormFormik noValidate onSubmit={handleSubmit(errors, values)}>
+        <FormFormik onSubmit={handleSubmit(errors, values)} noValidate>
           <div>
             <Field
               name="name"
