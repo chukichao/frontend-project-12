@@ -1,3 +1,7 @@
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-conditional-statement */
+/* eslint-disable consistent-return */
+
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -96,9 +100,14 @@ const ModalAddChannel = () => {
               }}
               innerRef={inputRef}
             />
+            <label className="visually-hidden" htmlFor="name">
+              {' '}
+              {t('modals.channelName')}
+            </label>
             <Form.Control.Feedback type="invalid">
               {error}
             </Form.Control.Feedback>
+
             <div className="d-flex justify-content-end">
               <Button
                 variant="secondary"

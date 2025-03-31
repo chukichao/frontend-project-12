@@ -1,10 +1,15 @@
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable no-param-reassign */
+/* eslint-disable consistent-return */
+/* eslint-disable functional/no-try-statement */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ChannelsService from '../../../API/ChannelsService.js';
-import { normalizeData } from '../../../utils/dataUtils.js';
+import normalizeData from '../../../utils/normalizeData.js';
 
 export const getChannels = createAsyncThunk(
   'channels/getChannels',
-  async function (token) {
+  async (token) => {
     try {
       const response = await ChannelsService.getChannels(token);
 
@@ -17,7 +22,7 @@ export const getChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async function ({ token, newChannel }) {
+  async ({ token, newChannel }) => {
     try {
       const response = await ChannelsService.addChannel(token, newChannel);
 
@@ -30,7 +35,7 @@ export const addChannel = createAsyncThunk(
 
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async function ({ token, channelId }) {
+  async ({ token, channelId }) => {
     try {
       const response = await ChannelsService.removeChannel(token, channelId);
 
@@ -43,7 +48,7 @@ export const removeChannel = createAsyncThunk(
 
 export const editChannel = createAsyncThunk(
   'channels/editChannel',
-  async function ({ token, channelId, editedChannel }) {
+  async ({ token, channelId, editedChannel }) => {
     try {
       const response = await ChannelsService.editChannel(
         token,

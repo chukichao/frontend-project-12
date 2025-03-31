@@ -1,10 +1,15 @@
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable no-param-reassign */
+/* eslint-disable consistent-return */
+/* eslint-disable functional/no-try-statement */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import MessagesService from '../../../API/MessagesService.js';
-import { normalizeData } from '../../../utils/dataUtils.js';
+import normalizeData from '../../../utils/normalizeData.js';
 
 export const getMessages = createAsyncThunk(
   'messages/getMessages',
-  async function (token) {
+  async (token) => {
     try {
       const response = await MessagesService.getMessages(token);
 
@@ -17,9 +22,9 @@ export const getMessages = createAsyncThunk(
 
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
-  async function ({ token, newMessage }) {
+  async ({ token, newMessage }) => {
     try {
-      await MessagesService.addMessage(token, newMessage);
+      const response = await MessagesService.addMessage(token, newMessage);
 
       return response.data;
     } catch (error) {

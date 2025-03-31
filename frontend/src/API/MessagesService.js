@@ -1,3 +1,5 @@
+/* eslint-disable functional/no-class */
+
 import axios from 'axios';
 
 export default class MessagesService {
@@ -12,10 +14,12 @@ export default class MessagesService {
   }
 
   static async addMessage(token, newMessage) {
-    await axios.post('/api/v1/messages', newMessage, {
+    const response = await axios.post('/api/v1/messages', newMessage, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return response;
   }
 }

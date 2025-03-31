@@ -1,5 +1,6 @@
 install:
 	npm ci
+	npx simple-git-hooks
 
 start-frontend:
 	make -C frontend start

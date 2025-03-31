@@ -1,3 +1,5 @@
+/* eslint-disable functional/no-expression-statement */
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import Modal from 'react-bootstrap/Modal';

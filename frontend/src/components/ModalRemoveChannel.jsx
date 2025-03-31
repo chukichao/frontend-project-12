@@ -1,3 +1,5 @@
+/* eslint-disable functional/no-expression-statement */
+
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -16,8 +18,7 @@ const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const getNotificationStatusOperation = () =>
-    toast.success(t('channels.removed'));
+  const getNotificationStatusOperation = () => toast.success(t('channels.removed'));
 
   const [disabledButton, setDisabledButton] = useState(false);
 

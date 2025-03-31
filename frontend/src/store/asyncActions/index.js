@@ -7,5 +7,7 @@ import {
 
 import { getMessages, addMessage } from '../slices/messages/messagesSlice.js';
 
-export { getChannels, addChannel, removeChannel, editChannel };
+export {
+  getChannels, addChannel, removeChannel, editChannel,
+};
 export { getMessages, addMessage };

@@ -1,7 +1,7 @@
 export default {
   translation: {
     channels: {
-      menu: 'Channel control', //
+      menu: 'Channel control',
       remove: 'Remove',
       rename: 'Rename',
       channels: 'Channels',
@@ -9,7 +9,7 @@ export default {
       renamed: 'Channel renamed',
       removed: 'Channel removed',
     },
-    loading: 'Loading...', //
+    loading: 'Loading...',
     login: {
       username: 'Username',
       password: 'Password',
@@ -31,13 +31,13 @@ export default {
       confirmation: 'Are you sure?',
       confirm: 'Confirm',
       rename: 'Rename channel',
-      channelName: 'Chanel name', //
-      editChannelName: 'New channel name', //
+      channelName: 'Chanel name',
+      editChannelName: 'New channel name',
     },
     hexletChat: 'Hexlet Chat',
     logout: 'Log out',
     chat: {
-      send: 'Send', //
+      send: 'Send',
       messageCount_zero: '{{count}} messages',
       messageCount_one: '{{count}} message',
       messageCount_other: '{{count}} messages',
@@ -63,7 +63,7 @@ export default {
     },
     errors: {
       network: 'Network Error',
-      unknown: 'Unknown Error', //
+      unknown: 'Unknown Error',
     },
   },
 };

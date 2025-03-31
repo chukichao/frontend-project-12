@@ -9,6 +9,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "cd frontend && npm ci"
   },
+  "simple-git-hooks": {
+    "pre-push": "npx lint-staged",
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "make -C frontend lint"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chukichao/frontend-project-12.git"
@@ -20,6 +27,8 @@
   },
   "homepage": "https://github.com/chukichao/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^2.0.4"
+    "@hexlet/chat-server": "^2.0.4",
+    "lint-staged": "^15.5.0",
+    "simple-git-hooks": "^2.12.1"
   }
 }

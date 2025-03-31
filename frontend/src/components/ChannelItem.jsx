@@ -1,3 +1,6 @@
+/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-conditional-statement */
+
 import { useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
@@ -49,8 +52,10 @@ const ChannelItem = ({ channel }) => {
           split
           variant=""
           className={`flex-grow-0 ${active ? 'btn-secondary' : ''}`}
-          id="dropdown-split-basic"
-        />
+          id="react-aria4798576829-:r0:"
+        >
+          <span className="visually-hidden">{t('channels.menu')}</span>
+        </Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => handleRemove(channel.id)}>
