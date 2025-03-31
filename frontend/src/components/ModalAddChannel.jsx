@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 import * as yup from 'yup';
 import { setLocale } from 'yup';
@@ -68,8 +69,9 @@ const ModalAddChannel = () => {
 
     setDisabledButton(true);
 
+    const filteredChannelName = filter.clean(values.name);
     const newChannel = {
-      name: values.name,
+      name: filteredChannelName,
     };
 
     dispatch(addChannel({ token, newChannel }));

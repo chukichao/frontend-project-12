@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -44,8 +45,10 @@ const FormAddMessage = () => {
     event.preventDefault();
     setDisabledButton(true);
 
+    const filteredMessage = filter.clean(message);
+
     const newMessage = {
-      body: message,
+      body: filteredMessage,
       channelId: currentChannel.id,
       username: currentUsername,
     };
