@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-class */
-
 import axios from 'axios';
 
 export default class ChannelsService {

@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
-
 import { Provider } from 'react-redux';
 
 import i18next from 'i18next';

@@ -1,7 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable functional/no-try-statement */
-/* eslint-disable functional/no-conditional-statement */
-
 import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -185,8 +181,8 @@ const SignupPage = () => {
                   id="confirmPassword"
                   placeholder={t('signup.mustMatch')}
                   className={`form-control ${
-                    (touched.confirmPassword && errors.confirmPassword)
-                    || isError
+                    (touched.confirmPassword && errors.confirmPassword) ||
+                    isError
                       ? 'is-invalid'
                       : ''
                   }`}

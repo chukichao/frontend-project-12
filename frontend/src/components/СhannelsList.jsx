@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 

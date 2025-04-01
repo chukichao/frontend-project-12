@@ -1,5 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
-/* eslint-disable functional/no-conditional-statement */
 /* eslint-disable consistent-return */
 
 import { useState, useRef, useEffect } from 'react';
@@ -27,7 +25,8 @@ const ModalRenameChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const getNotificationStatusOperation = () => toast.success(t('channels.renamed'));
+  const getNotificationStatusOperation = () =>
+    toast.success(t('channels.renamed'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
@@ -59,8 +58,7 @@ const ModalRenameChannel = () => {
   });
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required().min(3).max(20)
-      .notOneOf(channelNames),
+    name: yup.string().required().min(3).max(20).notOneOf(channelNames),
   });
 
   const handleCloseModal = () => {
