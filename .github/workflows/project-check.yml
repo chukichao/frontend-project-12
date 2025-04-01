@@ -32,5 +32,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: make -C frontend install
+      - run: make install
       - run: make -C frontend lint
