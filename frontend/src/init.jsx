@@ -3,8 +3,6 @@ import { Provider as StoreProvider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
-import filter from 'leo-profanity';
-
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import store, { persistor } from './store';
@@ -26,9 +24,6 @@ const init = async () => {
     },
     debug: false,
   });
-
-  // leo-profanity
-  filter.loadDictionary('ru');
 
   // rollbar
   const rollbarConfig = {

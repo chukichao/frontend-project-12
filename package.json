@@ -14,7 +14,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": "make -C frontend lint"
+    "*.{js,jsx}": "make -C frontend lint-fix"
   },
   "repository": {
     "type": "git",
