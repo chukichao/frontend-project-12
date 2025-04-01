@@ -6,7 +6,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import filter from 'leo-profanity';
 
 import { PersistGate } from 'redux-persist/integration/react';
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'; // Provider imports 'rollbar'
+import { Provider as RollbarProvider, ErrorBoundary } from 'rollbar';
 import store, { persistor } from './store';
 
 import './index.css';
