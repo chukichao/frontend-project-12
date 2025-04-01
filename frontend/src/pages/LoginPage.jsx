@@ -25,7 +25,9 @@ const Login = () => {
   const getNotificationConnectionError = () => toast.error(t('errors.network'));
 
   const [disabledButton, setDisabledButton] = useState(false);
-  const [isError, setIsError] = useState(false);
+
+  const [networkError, setNetworkError] = useState(null);
+  const [authError, setAuthError] = useState(null);
 
   const inputRef = useRef();
 
@@ -33,6 +35,13 @@ const Login = () => {
     inputRef.current.focus();
     inputRef.current.select();
   });
+
+  useEffect(() => {
+    if (networkError) {
+      getNotificationConnectionError();
+    }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [networkError, t]);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -49,13 +58,16 @@ const Login = () => {
 
       navigate('/');
     } catch (error) {
+      console.error(error);
+
       if (error.message === 'Network Error') {
-        getNotificationConnectionError();
+        setNetworkError(error);
         return;
       }
 
-      console.error(error);
-      setIsError(true);
+      if (error?.response.data.statusCode === 401) {
+        setAuthError(error);
+      }
     } finally {
       setSubmitting(false);
       setDisabledButton(false);
@@ -90,7 +102,7 @@ const Login = () => {
                 required
                 id="username"
                 placeholder={t('login.username')}
-                className={`form-control ${isError ? 'is-invalid' : ''}`}
+                className={`form-control ${authError ? 'is-invalid' : ''}`}
                 innerRef={inputRef}
               />
             </FloatingLabel>
@@ -107,9 +119,9 @@ const Login = () => {
                 required
                 id="password"
                 placeholder={t('login.password')}
-                className={`form-control ${isError ? 'is-invalid' : ''}`}
+                className={`form-control ${authError ? 'is-invalid' : ''}`}
               />
-              {isError && (
+              {authError && (
                 <div className="invalid-tooltip">{t('login.authFailed')}</div>
               )}
             </FloatingLabel>

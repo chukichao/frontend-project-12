@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { getToken } from '../store/selectors';
@@ -9,13 +8,14 @@ import MainPage from '../pages/MainPage.jsx';
 import AuthPage from '../pages/AuthPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import SignupPage from '../pages/SignupPage.jsx';
+
 import NotFoundPage from '../pages/NotFoundPage.jsx';
 
 import Chat from './Chat.jsx';
 
 const AppRouter = () => {
   const token = useSelector(getToken);
-  const redirect = token ? (
+  const privateRoutes = token ? (
     <Route index element={<Chat />} />
   ) : (
     <Route index element={<Navigate to="login" replace />} />
@@ -24,13 +24,17 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<MainPage />}>
-        {redirect}
+        {privateRoutes}
+
         <Route path="login" element={<AuthPage />}>
+          {token && <Route index element={<Navigate to="/" replace />} />}
           <Route index element={<LoginPage />} />
         </Route>
+
         <Route path="signup" element={<AuthPage />}>
           <Route index element={<SignupPage />} />
         </Route>
+
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

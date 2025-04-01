@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "@rollbar/react": "^0.12.1",
     "@vitejs/plugin-react": "^4.3.2",
     "axios": "^0.27.2",
     "bootstrap": "^5.3.3",

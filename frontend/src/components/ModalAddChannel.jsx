@@ -25,10 +25,11 @@ const ModalAddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const getNotificationStatusOperation = () => toast.success(t('channels.created'));
+  const getNotificationStatusOperation = () =>
+    toast.success(t('channels.created'));
 
   const [disabledButton, setDisabledButton] = useState(false);
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const inputRef = useRef();
 
@@ -53,8 +54,7 @@ const ModalAddChannel = () => {
   });
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required().min(3).max(20)
-      .notOneOf(channelNames),
+    name: yup.string().required().min(3).max(20).notOneOf(channelNames),
   });
 
   const handleCloseModal = () => {
@@ -65,7 +65,7 @@ const ModalAddChannel = () => {
     event.preventDefault();
 
     if (errors.name) {
-      setError(errors.name);
+      setErrorMessage(errors.name);
       return;
     }
 
@@ -90,7 +90,9 @@ const ModalAddChannel = () => {
             <Field
               name="name"
               id="name"
-              className={`form-control mb-2 ${error ? 'is-invalid' : ''}`}
+              className={`form-control mb-2 ${
+                errorMessage ? 'is-invalid' : ''
+              }`}
               onKeyDown={(event) => {
                 if (event.key === 'Enter') {
                   return handleSubmit(errors, values);
@@ -103,7 +105,7 @@ const ModalAddChannel = () => {
               {t('modals.channelName')}
             </label>
             <Form.Control.Feedback type="invalid">
-              {error}
+              {errorMessage}
             </Form.Control.Feedback>
 
             <div className="d-flex justify-content-end">

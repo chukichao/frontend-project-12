@@ -29,7 +29,11 @@ const SignupPage = () => {
   const getNotificationConnectionError = () => toast.error(t('errors.network'));
 
   const [disabledButton, setDisabledButton] = useState(false);
-  const [isError, setIsError] = useState(false);
+
+  const [networkError, setNetworkError] = useState(null);
+  const [authError, setAuthError] = useState(null);
+
+  const invalidField = networkError || authError;
 
   const inputRef = useRef();
 
@@ -37,6 +41,13 @@ const SignupPage = () => {
     inputRef.current.focus();
     inputRef.current.select();
   });
+
+  useEffect(() => {
+    if (networkError) {
+      getNotificationConnectionError();
+    }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [networkError, t]);
 
   setLocale({
     string: {
@@ -75,14 +86,15 @@ const SignupPage = () => {
 
       navigate('/');
     } catch (error) {
+      console.error(error);
+
       if (error.message === 'Network Error') {
-        getNotificationConnectionError();
+        setNetworkError(error);
         return;
       }
 
       if (error?.response.data.statusCode === 409) {
-        console.error(error);
-        setIsError(true);
+        setAuthError(error);
       }
     } finally {
       setSubmitting(false);
@@ -90,13 +102,13 @@ const SignupPage = () => {
     }
   };
 
-  const errorConfirmPassword = (
+  const errorConfirmPasswordFeedback = (
     <Form.Control.Feedback type="invalid" tooltip>
       {t('signup.mustMatch')}
     </Form.Control.Feedback>
   );
 
-  const errorAuth = (
+  const errorAuthFeedback = (
     <Form.Control.Feedback type="invalid" tooltip>
       {t('signup.alreadyExists')}
     </Form.Control.Feedback>
@@ -134,7 +146,7 @@ const SignupPage = () => {
                   placeholder={t('signup.usernameConstraints')}
                   innerRef={inputRef}
                   className={`form-control ${
-                    (touched.username && errors.username) || isError
+                    (touched.username && errors.username) || invalidField
                       ? 'is-invalid'
                       : ''
                   }`}
@@ -158,7 +170,7 @@ const SignupPage = () => {
                   id="password"
                   placeholder={t('signup.passMin')}
                   className={`form-control ${
-                    (touched.password && errors.password) || isError
+                    (touched.password && errors.password) || invalidField
                       ? 'is-invalid'
                       : ''
                   }`}
@@ -181,16 +193,16 @@ const SignupPage = () => {
                   id="confirmPassword"
                   placeholder={t('signup.mustMatch')}
                   className={`form-control ${
-                    (touched.confirmPassword && errors.confirmPassword)
-                    || isError
+                    (touched.confirmPassword && errors.confirmPassword) ||
+                    invalidField
                       ? 'is-invalid'
                       : ''
                   }`}
                 />
 
-                {isError && errorAuth}
+                {authError && errorAuthFeedback}
 
-                {errors.confirmPassword ? errorConfirmPassword : null}
+                {errors.confirmPassword ? errorConfirmPasswordFeedback : null}
               </FloatingLabel>
 
               <Button

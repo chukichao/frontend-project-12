@@ -15,6 +15,13 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    function TestError() {
+      const a = null;
+      return a.hello();
+    }
+
+    TestError();
+
     dispatch(authActions.removeAuth());
   };
 
