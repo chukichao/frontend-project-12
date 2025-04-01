@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { ToastContainer, Bounce } from 'react-toastify';
-import 'react-toastify/ReactToastify.min.css';
 
 import Header from '../components/Header.jsx';
 import ModalUI from '../components/UI/Modal.jsx';

@@ -23,7 +23,3 @@ build:
 
 lint-frontend:
 	make -C frontend lint
-
-dev:
-	make build
-	make start
