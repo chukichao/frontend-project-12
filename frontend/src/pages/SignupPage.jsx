@@ -181,8 +181,8 @@ const SignupPage = () => {
                   id="confirmPassword"
                   placeholder={t('signup.mustMatch')}
                   className={`form-control ${
-                    (touched.confirmPassword && errors.confirmPassword) ||
-                    isError
+                    (touched.confirmPassword && errors.confirmPassword)
+                    || isError
                       ? 'is-invalid'
                       : ''
                   }`}

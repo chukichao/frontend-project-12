@@ -25,8 +25,7 @@ const ModalAddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const getNotificationStatusOperation = () =>
-    toast.success(t('channels.created'));
+  const getNotificationStatusOperation = () => toast.success(t('channels.created'));
 
   const [disabledButton, setDisabledButton] = useState(false);
   const [error, setError] = useState('');
@@ -54,7 +53,8 @@ const ModalAddChannel = () => {
   });
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required().min(3).max(20).notOneOf(channelNames),
+    name: yup.string().required().min(3).max(20)
+      .notOneOf(channelNames),
   });
 
   const handleCloseModal = () => {
