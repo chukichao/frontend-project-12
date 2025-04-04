@@ -13,12 +13,14 @@ import NotFoundPage from '../pages/NotFoundPage.jsx';
 
 import Chat from './Chat.jsx';
 
+import routes from '../routes';
+
 const AppRouter = () => {
   const token = useSelector(getToken);
   const privateRoutes = token ? (
     <Route index element={<Chat />} />
   ) : (
-    <Route index element={<Navigate to="login" replace />} />
+    <Route index element={<Navigate to={routes.login} replace />} />
   );
 
   return (
@@ -26,12 +28,12 @@ const AppRouter = () => {
       <Route path="/" element={<MainPage />}>
         {privateRoutes}
 
-        <Route path="login" element={<AuthPage />}>
+        <Route path={routes.login} element={<AuthPage />}>
           {token && <Route index element={<Navigate to="/" replace />} />}
           <Route index element={<LoginPage />} />
         </Route>
 
-        <Route path="signup" element={<AuthPage />}>
+        <Route path={routes.signup} element={<AuthPage />}>
           <Route index element={<SignupPage />} />
         </Route>
 

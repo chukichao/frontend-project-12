@@ -18,13 +18,11 @@ const ChannelItem = ({ channel }) => {
   const active = currentChannel?.id === channel.id;
 
   const handleRemove = (id) => {
-    dispatch(uiActions.setExtra({ id }));
-    dispatch(uiActions.openModal({ type: 'removeChannel' }));
+    dispatch(uiActions.openModal({ type: 'removeChannel', extra: id }));
   };
 
   const handleRename = (id) => {
-    dispatch(uiActions.setExtra({ id }));
-    dispatch(uiActions.openModal({ type: 'renameChannel' }));
+    dispatch(uiActions.openModal({ type: 'renameChannel', extra: id }));
   };
 
   const handleSwitchChannel = (id) => {

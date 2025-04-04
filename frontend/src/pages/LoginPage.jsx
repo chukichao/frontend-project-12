@@ -17,6 +17,8 @@ import { authActions } from '../store/actions';
 
 import loginImg from '../assets/login.jpg';
 
+import routes from '../routes';
+
 const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -142,7 +144,9 @@ const Login = () => {
         <div className="text-center">
           <span>{t('login.newToChat')}</span>
           {'\u00A0'}
-          <Link to="/signup">{t('login.signup')}</Link>
+          <Link to={routes.signup} replace>
+            {t('login.signup')}
+          </Link>
         </div>
       </Card.Footer>
     </Card>

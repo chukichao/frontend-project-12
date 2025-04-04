@@ -3,8 +3,11 @@ import { Provider as StoreProvider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 
-import { PersistGate } from 'redux-persist/integration/react';
+import leoProfanity from 'leo-profanity';
+
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+
+import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './store';
 
 import './index.css';
@@ -30,6 +33,10 @@ const init = async () => {
     accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
     environment: 'production',
   };
+
+  // leo-profanity
+  const dictionary = leoProfanity.getDictionary('ru');
+  leoProfanity.add(dictionary);
 
   return (
     <StoreProvider store={store}>

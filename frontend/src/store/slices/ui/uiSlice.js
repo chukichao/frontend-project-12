@@ -24,18 +24,15 @@ const uiSlice = createSlice({
       state.currentChannelId = id;
     },
     openModal(state, action) {
-      const { type } = action.payload;
+      const { type, extra = null } = action.payload;
       state.modal.isOpened = true;
       state.modal.type = type;
+      state.modal.extra = extra;
     },
     closeModal(state) {
       state.modal.isOpened = false;
       state.modal.type = null;
       state.modal.extra = null;
-    },
-    setExtra(state, action) {
-      const { id } = action.payload;
-      state.modal.extra = id;
     },
   },
   extraReducers: (builder) => {
